@@ -1,6 +1,5 @@
-import styles from '@/styles/Home.module.css'
-
 import MovieList from '../components/movies/MovieList';
+import { GetServerSideProps } from 'next';
 
 export default function Home(props: any) {
 
@@ -9,9 +8,7 @@ export default function Home(props: any) {
   }
 
   return (
-    <section>
-      <MovieList movies={props.movies.results} />
-    </section>
+    <MovieList movies={props.movies.results} />
   )
 }
 
@@ -28,7 +25,7 @@ function convertEpisodeIds(episodeId: number) {
   return episodeMap.get(episodeId);
 }
 
-export async function getServerSideProps() {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const response = await fetch("https://swapi.dev/api/films/");
         if (!response.ok) {

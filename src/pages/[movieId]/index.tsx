@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { GetServerSideProps } from "next";
 
 import MovieDetail from "../../components/movies/MovieDetail";
 
@@ -14,9 +15,9 @@ export default function MovieDetails(props) {
   );
 }
 
-export async function getServerSideProps(context) {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
-    const movieId = context.params.movieId;
+    const movieId = context.params?.movieId;
     const response = await fetch(`https://swapi.dev/api/films/${movieId}/`);
     if (!response.ok) {
       throw new Error("Something went wrong.");
@@ -25,7 +26,7 @@ export async function getServerSideProps(context) {
 
     return {
       props: {
-        context: context.params.movieId,
+        context: context.params?.movieId,
         movie: data
       },
     };
